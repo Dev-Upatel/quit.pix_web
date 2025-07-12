@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes - Quit.pix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-white': '#f9f9f9',
+                        'deep-black': '#121212',
+                        'soft-pink': '#f472b6',
+                        'text-primary': '#1a1a1a',
+                        'text-secondary': '#6b7280',
+                        'quote-bg': '#fef3c7'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .note-card {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.05) 0%, rgba(244, 114, 182, 0.02) 100%);
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .note-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #d946ef);
+        }
+        
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.2);
+            border-color: rgba(244, 114, 182, 0.3);
+        }
+        
+        .quote-meditation {
+            font-style: italic;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .quote-meditation::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: -0.5rem;
+            left: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .tag {
+            background: rgba(244, 114, 182, 0.1);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            color: #ec4899;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .featured-note {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%);
+            border: 2px solid rgba(244, 114, 182, 0.2);
+        }
+        
+        .featured-note::before {
+            height: 6px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #d946ef, #c026d3);
+        }
+        
+        .reading-time {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .mood-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .mood-melancholy { background: #6366f1; }
+        .mood-peaceful { background: #10b981; }
+        .mood-contemplative { background: #f59e0b; }
+        .mood-nostalgic { background: #8b5cf6; }
+        .mood-hopeful { background: #06b6d4; }
+        .mood-reflective { background: #84cc16; }
+        
+        .prose-custom {
+            line-height: 1.8;
+        }
+        
+        .prose-custom p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .prose-custom h3 {
+            font-family: 'Playfair Display', serif;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .search-highlight {
+            background: rgba(244, 114, 182, 0.2);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="font-inter bg-soft-white dark:bg-deep-black text-text-primary dark:text-white transition-colors duration-300" oncontextmenu="return false;">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur bg-soft-white/80 dark:bg-deep-black/80 border-b border-gray-200/20 dark:border-gray-700/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="history.back()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <a href="/" class="font-playfair text-2xl font-bold text-soft-pink">Quit.pix</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Home</a>
+                        <a href="/gallery" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                        <a href="/notes" class="text-text-primary dark:text-white hover:text-soft-pink transition-colors duration-200">Notes</a>
+                        <a href="/zenmode" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                        <a href="/about" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                        <a href="/connect" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    
+                    <div class="relative">
+                        <input type="text" id="notesSearch" placeholder="search notes..." class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-soft-pink/50 w-40 transition-all duration-200">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h1 class="font-playfair text-5xl md:text-6xl font-bold mb-6 text-text-primary dark:text-white">
+                    Emotional <span class="text-soft-pink">Notes</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-text-secondary dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Raw thoughts, unfiltered feelings, and the quiet observations that come when we truly listen to our hearts
+                </p>
+            </div>
+            
+            <div class="fade-in quote-meditation max-w-2xl mx-auto" style="animation-delay: 0.3s;">
+                <p class="text-lg font-playfair text-text-primary">
+                    Writing is the only way I know to make sense of the beautiful chaos that lives inside us all. These are my attempts to capture lightning in a bottle.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Note -->
+    <section class="pb-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="fade-in featured-note note-card p-8 rounded-2xl cursor-pointer" onclick="openNote('the-space-between-breaths')" style="animation-delay: 0.6s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="tag">featured</span>
+                        <span class="tag">contemplative</span>
+                    </div>
+                    <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                        <span class="mood-indicator mood-contemplative"></span>
+                        <span class="reading-time">4 min read</span>
+                    </div>
+                </div>
+                
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    The Space Between Breaths
+                </h2>
+                
+                <p class="text-text-secondary dark:text-gray-300 text-lg leading-relaxed mb-6">
+                    There's a moment between inhaling and exhaling where time doesn't exist. A pause so brief that most people never notice it, yet it contains more truth about being human than entire libraries of philosophy books. It's in this space that I've learned to find myself again and again...
+                </p>
+                
+                <div class="flex items-center justify-between text-sm text-text-secondary dark:text-gray-400">
+                    <span>December 8, 2024</span>
+                    <span>Written during a quiet evening</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notes Grid -->
+    <section class="pb-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Note 1 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('rain-and-remembering')" style="animation-delay: 0.1s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">melancholy</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-melancholy"></span>
+                            <span class="reading-time">3 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        Rain and Remembering
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        The rain started just as I was thinking about you. Not the gentle kind that whispers against windows, but the heavy, honest rain that demands to be heard. It reminded me how some feelings arrive the same way...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        November 22, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 2 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('silence-has-weight')" style="animation-delay: 0.2s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">peaceful</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-peaceful"></span>
+                            <span class="reading-time">2 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        Silence Has Weight
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        I discovered today that silence isn't empty. It has texture, depth, even flavor. The silence of a library tastes different from the silence of a forest, which tastes different from the silence between two people who understand each other completely...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        November 15, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 3 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('letters-never-sent')" style="animation-delay: 0.3s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">nostalgic</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-nostalgic"></span>
+                            <span class="reading-time">5 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        Letters I Never Sent
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        I found a shoebox under my bed today, filled with letters I wrote but never sent. To old friends, to loves that slipped away, to the person I used to be. Each envelope sealed with hope and opened only by time...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        October 31, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 4 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('the-art-of-letting-go')" style="animation-delay: 0.4s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">hopeful</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-hopeful"></span>
+                            <span class="reading-time">4 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        The Art of Letting Go
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        They say letting go is an art, but I think it's more like learning to breathe underwater. Impossible until it isn't. Today I practiced releasing a dream I'd held so tightly that my hands had forgotten how to hold anything else...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        October 18, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 5 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('midnight-conversations')" style="animation-delay: 0.5s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">reflective</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-reflective"></span>
+                            <span class="reading-time">3 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        Midnight Conversations with Myself
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        3 AM thoughts hit different. They're raw, honest, unfiltered by the politeness of daylight. Tonight I had a conversation with the version of myself from five years ago, and we both had so much to learn...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        September 29, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 6 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('the-color-of-loneliness')" style="animation-delay: 0.6s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">melancholy</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-melancholy"></span>
+                            <span class="reading-time">4 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        The Color of Loneliness
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        If loneliness had a color, it would be the blue of twilight sky - not quite dark, not quite light, but something in between that makes you feel like you're floating in space. Today I painted with that color...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        September 12, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 7 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('morning-rituals')" style="animation-delay: 0.7s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">peaceful</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-peaceful"></span>
+                            <span class="reading-time">2 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        Morning Rituals of the Heart
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        My morning coffee tastes like possibility. The first sip is always the same - warm, bitter, hopeful. It's the small rituals that anchor us, the tiny ceremonies that say "I'm still here, I'm still trying, I'm still believing in tomorrow"...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        August 26, 2024
+                    </div>
+                </div>
+                
+                <!-- Note 8 -->
+                <div class="fade-in note-card p-6 rounded-2xl cursor-pointer" onclick="openNote('what-healing-looks-like')" style="animation-delay: 0.8s;">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="tag">hopeful</span>
+                        </div>
+                        <div class="flex items-center text-text-secondary dark:text-gray-400 text-sm">
+                            <span class="mood-indicator mood-hopeful"></span>
+                            <span class="reading-time">5 min read</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white">
+                        What Healing Actually Looks Like
+                    </h3>
+                    
+                    <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-4">
+                        Healing isn't a straight line. It's more like learning to dance with your scars, to find beauty in the broken places. Today I realized that I haven't just survived - I've learned to thrive in ways I never thought possible...
+                    </p>
+                    
+                    <div class="text-sm text-text-secondary dark:text-gray-400">
+                        August 14, 2024
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Load More -->
+            <div class="text-center mt-16 fade-in">
+                <button id="loadMoreNotes" class="bg-soft-pink hover:bg-pink-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Read More Stories
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Notes Section -->
+    <section class="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-8 text-text-primary dark:text-white">
+                    Why I Write
+                </h2>
+                
+                <div class="prose prose-lg max-w-none text-text-secondary dark:text-gray-300 leading-relaxed">
+                    <p>
+                        These notes aren't polished essays or carefully crafted stories. They're raw moments captured in words, the emotional equivalent of taking a photograph. Sometimes messy, often vulnerable, always honest.
+                    </p>
+                    <p>
+                        I write because feelings are fleeting, but words can hold them. I write because someone, somewhere, might read these and think "yes, that's exactly how I feel too." I write because in a world that often asks us to be anything but human, this is my small act of rebellion.
+                    </p>
+                    <p class="italic font-playfair text-lg text-text-primary dark:text-white">
+                        "We write to taste life twice, in the moment and in retrospection." - Anaïs Nin
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="font-playfair text-2xl font-bold text-soft-pink mb-4">Quit.pix</h3>
+                <p class="text-text-secondary dark:text-gray-300 max-w-2xl mx-auto">
+                    Every photograph is a silent poem, every moment a preserved emotion. 
+                    This is where feelings find their eternal home.
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="/gallery" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                <a href="/notes" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                <a href="/zenmode" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                <a href="/about" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                <a href="/connect" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <p class="text-text-secondary dark:text-gray-400 text-sm">
+                    © 2025 Quit.pix • Made with silence and soul
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Open note functionality
+        function openNote(noteSlug) {
+            // In a real implementation, this would navigate to the individual note page
+            window.location.href = `/notes/${noteSlug}`;
+        }
+        
+        // Load more notes
+        document.getElementById('loadMoreNotes').addEventListener('click', () => {
+            alert('More emotional journeys loading...');
+        });
+        
+        // Notes search functionality
+        const notesSearch = document.getElementById('notesSearch');
+        let allNotes = [];
+        
+        // Collect all notes for searching
+        document.addEventListener('DOMContentLoaded', () => {
+            allNotes = Array.from(document.querySelectorAll('.note-card')).map(card => ({
+                element: card,
+                title: card.querySelector('h2, h3').textContent,
+                content: card.querySelector('p').textContent,
+                tags: Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent)
+            }));
+        });
+        
+        notesSearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query === '') {
+                // Show all notes
+                allNotes.forEach(note => {
+                    note.element.style.display = 'block';
+                    // Remove any existing highlights
+                    note.element.innerHTML = note.element.innerHTML.replace(/<span class="search-highlight">(.*?)<\/span>/g, '$1');
+                });
+                return;
+            }
+            
+            allNotes.forEach(note => {
+                const titleMatch = note.title.toLowerCase().includes(query);
+                const contentMatch = note.content.toLowerCase().includes(query);
+                const tagMatch = note.tags.some(tag => tag.toLowerCase().includes(query));
+                
+                if (titleMatch || contentMatch || tagMatch) {
+                    note.element.style.display = 'block';
+                    
+                    // Highlight search terms
+                    const titleElement = note.element.querySelector('h2, h3');
+                    const contentElement = note.element.querySelector('p');
+                    
+                    if (titleMatch) {
+                        titleElement.innerHTML = highlightText(titleElement.textContent, query);
+                    }
+                    if (contentMatch) {
+                        contentElement.innerHTML = highlightText(contentElement.textContent, query);
+                    }
+                } else {
+                    note.element.style.display = 'none';
+                }
+            });
+        });
+        
+        function highlightText(text, query) {
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+        
+        // Clear search when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!notesSearch.contains(e.target)) {
+                if (notesSearch.value === '') {
+                    // Reset all highlights
+                    allNotes.forEach(note => {
+                        note.element.innerHTML = note.element.innerHTML.replace(/<span class="search-highlight">(.*?)<\/span>/g, '$1');
+                    });
+                }
+            }
+        });
+        
+        // Prevent context menu and text selection
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

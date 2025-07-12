@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Mode - Quit.pix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-white': '#f9f9f9',
+                        'deep-black': '#121212',
+                        'soft-pink': '#f472b6',
+                        'text-primary': '#1a1a1a',
+                        'text-secondary': '#6b7280',
+                        'quote-bg': '#fef3c7'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .slideshow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            z-index: 40;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 1s ease;
+        }
+        
+        .slideshow-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(244, 114, 182, 0.3);
+        }
+        
+        .slide-info {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            right: 60px;
+            text-align: center;
+            color: white;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.5s ease 1s;
+        }
+        
+        .slide.active .slide-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(244, 114, 182, 0.5);
+            color: white;
+            padding: 12px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .control-btn:hover {
+            background: rgba(244, 114, 182, 0.8);
+            border-color: #f472b6;
+            transform: scale(1.1);
+        }
+        
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 50;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f472b6, #ec4899);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        .zen-card {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .zen-card:hover {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.2) 0%, rgba(244, 114, 182, 0.1) 100%);
+            border-color: rgba(244, 114, 182, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .quote-meditation {
+            font-style: italic;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .quote-meditation::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: -0.5rem;
+            left: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .breathing-animation {
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        .meditation-timer {
+            background: rgba(244, 114, 182, 0.1);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .timer-circle {
+            width: 120px;
+            height: 120px;
+            border: 3px solid rgba(244, 114, 182, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-circle.active {
+            border-color: #f472b6;
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.5);
+        }
+    </style>
+</head>
+<body class="font-inter bg-soft-white dark:bg-deep-black text-text-primary dark:text-white transition-colors duration-300" oncontextmenu="return false;">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-30 navbar-blur bg-soft-white/80 dark:bg-deep-black/80 border-b border-gray-200/20 dark:border-gray-700/20" id="mainNav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="history.back()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <a href="/" class="font-playfair text-2xl font-bold text-soft-pink">Quit.pix</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Home</a>
+                        <a href="/gallery" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                        <a href="/notes" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                        <a href="/zenmode" class="text-text-primary dark:text-white hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                        <a href="/about" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                        <a href="/connect" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="fade-in">
+                    <div class="breathing-animation mb-8">
+                        <div class="w-32 h-32 mx-auto bg-gradient-to-br from-soft-pink to-pink-500 rounded-full flex items-center justify-center shadow-2xl">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <h1 class="font-playfair text-5xl md:text-6xl font-bold mb-6 text-text-primary dark:text-white">
+                        Zen <span class="text-soft-pink">Mode</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-text-secondary dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                        Immerse yourself in pure emotion. Let the images flow through your consciousness like a gentle stream of feelings.
+                    </p>
+                </div>
+                
+                <div class="fade-in quote-meditation max-w-2xl mx-auto mb-12" style="animation-delay: 0.3s;">
+                    <p class="text-lg font-playfair text-text-primary">
+                        In the space between thoughts, between breaths, between heartbeats — there lies the essence of what we truly are.
+                    </p>
+                </div>
+                
+                <div class="fade-in grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12" style="animation-delay: 0.6s;">
+                    <!-- Slideshow Mode -->
+                    <div class="zen-card p-6 rounded-2xl text-center cursor-pointer" onclick="startSlideshow()">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h6m2 5H7a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Auto Slideshow</h3>
+                        <p class="text-text-secondary dark:text-gray-300 text-sm">Let emotions flow automatically, 8 seconds per feeling</p>
+                    </div>
+                    
+                    <!-- Meditation Timer -->
+                    <div class="zen-card p-6 rounded-2xl text-center cursor-pointer" onclick="startMeditation()">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Timed Session</h3>
+                        <p class="text-text-secondary dark:text-gray-300 text-sm">Set a meditation timer with gentle image transitions</p>
+                    </div>
+                    
+                    <!-- Random Mode -->
+                    <div class="zen-card p-6 rounded-2xl text-center cursor-pointer" onclick="startRandom()">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h4a1 1 0 011 1v2m3 0V2a1 1 0 011-1h2a1 1 0 011 1v2m0 0h1a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h1m0 0V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0h3m-3 0V2a1 1 0 011-1h2a1 1 0 011 1v2"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Surprise Me</h3>
+                        <p class="text-text-secondary dark:text-gray-300 text-sm">Random emotions, random timing, infinite possibilities</p>
+                    </div>
+                </div>
+                
+                <!-- Meditation Timer Setup -->
+                <div class="fade-in meditation-timer max-w-sm mx-auto" style="animation-delay: 0.9s;" id="timerSetup">
+                    <h4 class="font-playfair text-lg font-semibold mb-4 text-text-primary dark:text-white">Set Your Session</h4>
+                    <div class="timer-circle" id="timerDisplay">
+                        <span class="text-2xl font-bold text-soft-pink" id="timerText">5:00</span>
+                    </div>
+                    <div class="flex justify-center space-x-4 mb-4">
+                        <button onclick="setTimer(300)" class="px-4 py-2 bg-soft-pink/20 text-soft-pink rounded-lg hover:bg-soft-pink/30 transition-colors duration-200">5 min</button>
+                        <button onclick="setTimer(600)" class="px-4 py-2 bg-soft-pink/20 text-soft-pink rounded-lg hover:bg-soft-pink/30 transition-colors duration-200">10 min</button>
+                        <button onclick="setTimer(900)" class="px-4 py-2 bg-soft-pink/20 text-soft-pink rounded-lg hover:bg-soft-pink/30 transition-colors duration-200">15 min</button>
+                        <button onclick="setTimer(1200)" class="px-4 py-2 bg-soft-pink/20 text-soft-pink rounded-lg hover:bg-soft-pink/30 transition-colors duration-200">20 min</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instructions Section -->
+        <section class="py-20 px-4 bg-gray-100 dark:bg-gray-900">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="fade-in">
+                    <h2 class="font-playfair text-3xl font-bold mb-8 text-text-primary dark:text-white">
+                        How to Experience Zen Mode
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl">
+                            <h3 class="font-playfair text-xl font-semibold mb-4 text-soft-pink">Before You Begin</h3>
+                            <ul class="space-y-2 text-text-secondary dark:text-gray-300">
+                                <li>• Find a quiet, comfortable space</li>
+                                <li>• Put your device in Do Not Disturb mode</li>
+                                <li>• Sit comfortably with your back straight</li>
+                                <li>• Take three deep breaths to center yourself</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl">
+                            <h3 class="font-playfair text-xl font-semibold mb-4 text-soft-pink">During the Session</h3>
+                            <ul class="space-y-2 text-text-secondary dark:text-gray-300">
+                                <li>• Let each image wash over you naturally</li>
+                                <li>• Notice what emotions arise without judgment</li>
+                                <li>• Breathe deeply and stay present</li>
+                                <li>• Use the space bar to pause if needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 quote-meditation max-w-2xl mx-auto">
+                        <p class="text-lg font-playfair text-text-primary">
+                            Remember: This is not about thinking or analyzing. It's about feeling, being present, and allowing your consciousness to flow with the visual poetry of human emotion.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Slideshow Container -->
+    <div class="slideshow-container" id="slideshowContainer">
+        <!-- Controls -->
+        <div class="controls" id="slideshowControls">
+            <button class="control-btn" onclick="togglePlay()" id="playPauseBtn">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" id="pauseIcon">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+                <svg class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24" id="playIcon">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+            <button class="control-btn" onclick="previousSlide()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <button class="control-btn" onclick="nextSlide()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            <button class="control-btn" onclick="exitSlideshow()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <!-- Slides Container -->
+        <div id="slidesContainer">
+            <!-- Slides will be dynamically generated -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="font-playfair text-2xl font-bold text-soft-pink mb-4">Quit.pix</h3>
+                <p class="text-text-secondary dark:text-gray-300 max-w-2xl mx-auto">
+                    Every photograph is a silent poem, every moment a preserved emotion. 
+                    This is where feelings find their eternal home.
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="/gallery" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                <a href="/notes" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                <a href="/zenmode" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                <a href="/about" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                <a href="/connect" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <p class="text-text-secondary dark:text-gray-400 text-sm">
+                    © 2025 Quit.pix • Made with silence and soul
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Slideshow functionality
+        const images = [
+            { 
+                src: "keys/zen-mountain-mist?prompt=A%20misty%20mountain%20landscape%20at%20dawn%2C%20serene%20and%20contemplative%2C%20meditation%20mood%2C%20ethereal%20lighting",
+                title: "Mountain Mist",
+                quote: "In the silence of the mountains, the soul finds its voice."
+            },
+            { 
+                src: "keys/zen-ocean-sunset?prompt=A%20calm%20ocean%20at%20sunset%2C%20peaceful%20waves%2C%20meditation%20atmosphere%2C%20golden%20hour%20lighting%2C%20tranquil",
+                title: "Ocean's Embrace",
+                quote: "Waves teach us that nothing is permanent, everything flows."
+            },
+            { 
+                src: "keys/zen-forest-light?prompt=Sunlight%20filtering%20through%20a%20peaceful%20forest%2C%20zen%20meditation%20mood%2C%20natural%20cathedral%2C%20spiritual",
+                title: "Forest Cathedral",
+                quote: "Among the trees, we remember our connection to all life."
+            },
+            { 
+                src: "keys/zen-desert-stars?prompt=A%20starry%20desert%20night%2C%20cosmic%20meditation%2C%20infinite%20sky%2C%20contemplative%20and%20peaceful%20mood",
+                title: "Desert Stars",
+                quote: "Under the vast sky, we realize how small yet infinite we are."
+            },
+            { 
+                src: "keys/zen-lake-reflection?prompt=A%20perfectly%20still%20lake%20reflecting%20clouds%2C%20mirror%20meditation%2C%20peaceful%20and%20contemplative%20atmosphere",
+                title: "Mirror Lake",
+                quote: "Still water reflects the truth we seek within ourselves."
+            },
+            { 
+                src: "keys/zen-garden-stones?prompt=A%20zen%20garden%20with%20carefully%20placed%20stones%2C%20meditation%20space%2C%20minimalist%20and%20peaceful%2C%20contemplative",
+                title: "Stone Garden",
+                quote: "Each stone placed with intention, each moment lived with purpose."
+            },
+            { 
+                src: "keys/zen-waterfall-mist?prompt=A%20serene%20waterfall%20with%20soft%20mist%2C%20meditation%20nature%2C%20flowing%20water%2C%20peaceful%20and%20contemplative",
+                title: "Flowing Meditation",
+                quote: "Water finds its way through all obstacles, as do we."
+            },
+            { 
+                src: "keys/zen-field-sunrise?prompt=A%20peaceful%20field%20at%20sunrise%2C%20golden%20meditation%20light%2C%20serene%20landscape%2C%20contemplative%20morning",
+                title: "Dawn's Promise",
+                quote: "Each sunrise offers a new beginning, a fresh breath of possibility."
+            }
+        ];
+        
+        let currentSlide = 0;
+        let slideInterval;
+        let isPlaying = false;
+        let slideMode = 'auto'; // 'auto', 'timed', 'random'
+        let sessionDuration = 300; // 5 minutes default
+        let sessionStartTime;
+        let progressInterval;
+        
+        function createSlides() {
+            const container = document.getElementById('slidesContainer');
+            container.innerHTML = '';
+            
+            images.forEach((image, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                if (index === 0) slide.classList.add('active');
+                
+                slide.innerHTML = `
+                    <img src="${image.src}" alt="${image.title}">
+                    <div class="slide-info">
+                        <h3 class="font-playfair text-3xl font-bold mb-4">${image.title}</h3>
+                        <p class="text-xl italic opacity-80">${image.quote}</p>
+                    </div>
+                `;
+                
+                container.appendChild(slide);
+            });
+        }
+        
+        function startSlideshow() {
+            slideMode = 'auto';
+            document.getElementById('slideshowContainer').classList.add('active');
+            document.getElementById('mainNav').style.display = 'none';
+            createSlides();
+            currentSlide = 0;
+            isPlaying = true;
+            startAutoplay();
+            startProgressTracking();
+        }
+        
+        function startMeditation() {
+            slideMode = 'timed';
+            sessionStartTime = Date.now();
+            document.getElementById('slideshowContainer').classList.add('active');
+            document.getElementById('mainNav').style.display = 'none';
+            createSlides();
+            currentSlide = 0;
+            isPlaying = true;
+            startAutoplay();
+            startProgressTracking();
+        }
+        
+        function startRandom() {
+            slideMode = 'random';
+            document.getElementById('slideshowContainer').classList.add('active');
+            document.getElementById('mainNav').style.display = 'none';
+            
+            // Shuffle images
+            const shuffled = [...images].sort(() => Math.random() - 0.5);
+            images.splice(0, images.length, ...shuffled);
+            
+            createSlides();
+            currentSlide = 0;
+            isPlaying = true;
+            startAutoplay(Math.random() * 5000 + 3000); // Random timing 3-8 seconds
+            startProgressTracking();
+        }
+        
+        function startAutoplay(customInterval = 8000) {
+            if (slideInterval) clearInterval(slideInterval);
+            
+            slideInterval = setInterval(() => {
+                if (isPlaying) {
+                    nextSlide();
+                    
+                    // For random mode, use random intervals
+                    if (slideMode === 'random') {
+                        clearInterval(slideInterval);
+                        startAutoplay(Math.random() * 5000 + 3000);
+                    }
+                }
+            }, customInterval);
+        }
+        
+        function startProgressTracking() {
+            if (progressInterval) clearInterval(progressInterval);
+            
+            progressInterval = setInterval(() => {
+                if (slideMode === 'timed' && sessionStartTime) {
+                    const elapsed = Date.now() - sessionStartTime;
+                    const progress = Math.min((elapsed / (sessionDuration * 1000)) * 100, 100);
+                    document.getElementById('progressFill').style.width = progress + '%';
+                    
+                    if (progress >= 100) {
+                        exitSlideshow();
+                        alert('Meditation session complete. Take a moment to appreciate the silence.');
+                    }
+                } else {
+                    // For auto and random modes, show slide progress
+                    const progress = ((currentSlide + 1) / images.length) * 100;
+                    document.getElementById('progressFill').style.width = progress + '%';
+                }
+            }, 100);
+        }
+        
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slides[currentSlide].classList.remove('active');
+            
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        function previousSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slides[currentSlide].classList.remove('active');
+            
+            currentSlide = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            
+            if (isPlaying) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+        
+        function exitSlideshow() {
+            document.getElementById('slideshowContainer').classList.remove('active');
+            document.getElementById('mainNav').style.display = 'block';
+            
+            if (slideInterval) clearInterval(slideInterval);
+            if (progressInterval) clearInterval(progressInterval);
+            
+            isPlaying = false;
+            document.getElementById('progressFill').style.width = '0%';
+            
+            // Reset play button
+            document.getElementById('playIcon').classList.add('hidden');
+            document.getElementById('pauseIcon').classList.remove('hidden');
+        }
+        
+        function setTimer(seconds) {
+            sessionDuration = seconds;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            document.getElementById('timerText').textContent = 
+                `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            
+            // Visual feedback
+            const timerCircle = document.getElementById('timerDisplay');
+            timerCircle.classList.add('active');
+            setTimeout(() => timerCircle.classList.remove('active'), 200);
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            const container = document.getElementById('slideshowContainer');
+            
+            if (container.classList.contains('active')) {
+                switch(e.key) {
+                    case 'Escape':
+                        exitSlideshow();
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        togglePlay();
+                        break;
+                    case 'ArrowLeft':
+                        previousSlide();
+                        break;
+                    case 'ArrowRight':
+                        nextSlide();
+                        break;
+                }
+            }
+        });
+        
+        // Prevent context menu and text selection
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

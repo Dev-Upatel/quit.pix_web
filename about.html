@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Quit.pix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-white': '#f9f9f9',
+                        'deep-black': '#121212',
+                        'soft-pink': '#f472b6',
+                        'text-primary': '#1a1a1a',
+                        'text-secondary': '#6b7280',
+                        'quote-bg': '#fef3c7'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .quote-meditation {
+            font-style: italic;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .quote-meditation::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: -0.5rem;
+            left: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .philosophy-card {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.05) 0%, rgba(244, 114, 182, 0.02) 100%);
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #d946ef);
+        }
+        
+        .philosophy-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.2);
+            border-color: rgba(244, 114, 182, 0.3);
+        }
+        
+        .story-timeline {
+            position: relative;
+        }
+        
+        .story-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #f472b6, #ec4899, #d946ef);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: #f472b6;
+            border: 4px solid white;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            padding: 2rem;
+            background: rgba(244, 114, 182, 0.05);
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            border-radius: 1rem;
+            position: relative;
+        }
+        
+        .timeline-content.left {
+            margin-left: 0;
+            margin-right: auto;
+        }
+        
+        .timeline-content.right {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        
+        .manifesto {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%);
+            border: 2px solid rgba(244, 114, 182, 0.2);
+            position: relative;
+        }
+        
+        .manifesto::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #d946ef, #c026d3);
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(244, 114, 182, 0.1);
+        }
+        
+        .dark .value-card {
+            background: #1f2937;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(244, 114, 182, 0.2);
+        }
+        
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .stats-counter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f472b6;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .photography-philosophy {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.05) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .story-timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 60px !important;
+                margin-right: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-soft-white dark:bg-deep-black text-text-primary dark:text-white transition-colors duration-300" oncontextmenu="return false;">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur bg-soft-white/80 dark:bg-deep-black/80 border-b border-gray-200/20 dark:border-gray-700/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="history.back()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <a href="/" class="font-playfair text-2xl font-bold text-soft-pink">Quit.pix</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" onclick="navigateToPage('home')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Home</a>
+                        <a href="#gallery" onclick="navigateToPage('gallery')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                <a href="notes.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                <a href="zenmode.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                        <a href="#about" onclick="navigateToPage('about')" class="text-text-primary dark:text-white hover:text-soft-pink transition-colors duration-200">About</a>
+                <a href="connect.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h1 class="font-playfair text-5xl md:text-6xl font-bold mb-6 text-text-primary dark:text-white">
+                    The Story Behind <span class="text-soft-pink">Quit.pix</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-text-secondary dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    A digital museum where silence speaks louder than words, and emotions find their eternal home
+                </p>
+            </div>
+            
+            <div class="fade-in quote-meditation max-w-2xl mx-auto" style="animation-delay: 0.3s;">
+                <p class="text-lg font-playfair text-text-primary">
+                    Photography is not about capturing what we see, but about preserving what we feel. This is where those feelings come to rest.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Origin Story -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <img src="keys/photographer-silhouette?prompt=A%20silhouette%20of%20a%20photographer%20against%20a%20beautiful%20sunset%2C%20contemplative%20and%20artistic%2C%20emotional%20mood%2C%20cinematic" 
+                         alt="The Artist" 
+                         class="w-full rounded-2xl shadow-2xl">
+                </div>
+                
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <h2 class="font-playfair text-3xl font-bold mb-6 text-text-primary dark:text-white">
+                        Born from Silence
+                    </h2>
+                    <div class="prose prose-lg max-w-none text-text-secondary dark:text-gray-300 leading-relaxed space-y-4">
+                        <p>
+                            Quit.pix began in the quiet moments between heartbeats, in the spaces where words fail and only images can speak. It started as a personal project — a way to process emotions too complex for language, too delicate for conversation.
+                        </p>
+                        <p>
+                            Every photograph here is a piece of someone's soul, captured in the fleeting moment when vulnerability becomes art. This isn't about technical perfection or aesthetic beauty. This is about truth. 
+                            <a href="gallery.html" class="text-soft-pink hover:underline font-medium">Explore our Gallery</a> to witness these authentic moments.
+                        </p>
+                        <p>
+                            The name itself — Quit.pix — represents the decision to stop trying to explain feelings with words and start preserving them in pixels. To quit the endless search for the right words and embrace the infinite language of light and shadow. Experience this philosophy in our 
+                            <a href="zenmode.html" class="text-soft-pink hover:underline font-medium">Zen Mode</a>, where images speak for themselves.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Cards -->
+    <section class="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Our Philosophy
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    The principles that guide every image we share
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Philosophy 1 -->
+                <div class="fade-in philosophy-card p-6 rounded-2xl" style="animation-delay: 0.1s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white text-center">
+                        Emotion Over Perfection
+                    </h3>
+                    <p class="text-text-secondary dark:text-gray-300 text-center leading-relaxed">
+                        We choose the image that makes you feel something over the one that looks perfect. A blurry photograph of genuine emotion beats a sharp image of emptiness. See this in action in our 
+                        <a href="gallery.html" class="text-soft-pink hover:underline">curated collections</a>.
+                    </p>
+                </div>
+                
+                <!-- Philosophy 2 -->
+                <div class="fade-in philosophy-card p-6 rounded-2xl" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white text-center">
+                        Silence Speaks Loudest
+                    </h3>
+                    <p class="text-text-secondary dark:text-gray-300 text-center leading-relaxed">
+                        In a world of noise, we create spaces of contemplation. Sometimes the most powerful communication happens without words, in the quiet dialogue between viewer and image. Find this silence in our 
+                        <a href="zenmode.html" class="text-soft-pink hover:underline">Zen Mode</a>.
+                    </p>
+                </div>
+                
+                <!-- Philosophy 3 -->
+                <div class="fade-in philosophy-card p-6 rounded-2xl" style="animation-delay: 0.3s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-3 text-text-primary dark:text-white text-center">
+                        Vulnerability as Strength
+                    </h3>
+                    <p class="text-text-secondary dark:text-gray-300 text-center leading-relaxed">
+                        We believe that showing your raw, unfiltered emotions is the bravest act of all. Every tear, every smile, every moment of uncertainty is a testament to being human. Read personal stories in our 
+                        <a href="notes.html" class="text-soft-pink hover:underline">Notes</a> section.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Timeline -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    The Journey
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    How Quit.pix evolved from a personal project to a digital museum
+                </p>
+            </div>
+            
+            <div class="story-timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">The First Image</h3>
+                        <p class="text-sm text-soft-pink font-semibold mb-2">2019</p>
+                        <p class="text-text-secondary dark:text-gray-300">
+                            It started with a single photograph of rain on a window. I couldn't find words for what I was feeling, but that image captured it perfectly. That's when I realized photography could be my emotional vocabulary.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.2s;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Building the Collection</h3>
+                        <p class="text-sm text-soft-pink font-semibold mb-2">2020-2022</p>
+                        <p class="text-text-secondary dark:text-gray-300">
+                            During the quiet years, the collection grew. Each image became a diary entry, each photograph a preserved emotion. Friends began sharing their own visual stories, and I realized this was bigger than just me. These stories evolved into our 
+                            <a href="notes.html" class="text-soft-pink hover:underline">Notes</a> section.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.4s;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">The Digital Museum</h3>
+                        <p class="text-sm text-soft-pink font-semibold mb-2">2023</p>
+                        <p class="text-text-secondary dark:text-gray-300">
+                            The idea of a "digital museum of emotions" was born. Not just a gallery, but a sacred space where feelings could live forever. Where silence was valued as much as speech.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 4 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.6s;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Zen Mode & Beyond</h3>
+                        <p class="text-sm text-soft-pink font-semibold mb-2">2024-Present</p>
+                        <p class="text-text-secondary dark:text-gray-300">
+                            We introduced meditation through imagery, personal emotional notes, and interactive experiences. Today, Quit.pix serves thousands of people seeking authentic emotional connection in our digital age. 
+                            <a href="connect.html" class="text-soft-pink hover:underline">Join our community</a> to be part of this movement.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-4xl mx-auto">
+            <div class="fade-in manifesto p-8 rounded-3xl">
+                <h2 class="font-playfair text-3xl font-bold mb-8 text-text-primary dark:text-white text-center">
+                    The Quit.pix Manifesto
+                </h2>
+                
+                <div class="space-y-6 text-text-primary dark:text-white leading-relaxed">
+                    <p class="text-lg">
+                        <strong>We believe</strong> that every human emotion deserves to be witnessed, honored, and preserved.
+                    </p>
+                    
+                    <p class="text-lg">
+                        <strong>We believe</strong> that silence is not empty — it's full of everything we can't put into words.
+                    </p>
+                    
+                    <p class="text-lg">
+                        <strong>We believe</strong> that a photograph can hold more truth than a thousand explanations.
+                    </p>
+                    
+                    <p class="text-lg">
+                        <strong>We believe</strong> that vulnerability is not weakness — it's the highest form of courage.
+                    </p>
+                    
+                    <p class="text-lg">
+                        <strong>We believe</strong> that in our rush to document everything, we've forgotten to feel everything.
+                    </p>
+                    
+                    <p class="text-lg font-playfair italic text-center mt-8 text-soft-pink">
+                        This is our quiet revolution. This is our digital sanctuary. This is where feelings come to live forever.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Stats -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Creating Emotional Impact
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    The numbers behind our quiet revolution
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="fade-in text-center" style="animation-delay: 0.1s;">
+                    <div class="stats-counter" data-target="12847">0</div>
+                    <p class="text-text-secondary dark:text-gray-300 mt-2">Emotions Preserved</p>
+                </div>
+                
+                <div class="fade-in text-center" style="animation-delay: 0.2s;">
+                    <div class="stats-counter" data-target="2156">0</div>
+                    <p class="text-text-secondary dark:text-gray-300 mt-2">Meditation Sessions</p>
+                </div>
+                
+                <div class="fade-in text-center" style="animation-delay: 0.3s;">
+                    <div class="stats-counter" data-target="847">0</div>
+                    <p class="text-text-secondary dark:text-gray-300 mt-2">Personal Stories Shared</p>
+                </div>
+                
+                <div class="fade-in text-center" style="animation-delay: 0.4s;">
+                    <div class="stats-counter" data-target="3724">0</div>
+                    <p class="text-text-secondary dark:text-gray-300 mt-2">Quiet Moments Created</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Our Core Values
+                </h2>
+            </div>
+            
+            <div class="values-grid">
+                <div class="fade-in value-card dark:bg-gray-800" style="animation-delay: 0.1s;">
+                    <div class="value-icon">
+                        <span>🤍</span>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Authenticity</h3>
+                    <p class="text-text-secondary dark:text-gray-300">Every image tells a true story. No filters on emotions, no pretense in pain.</p>
+                </div>
+                
+                <div class="fade-in value-card dark:bg-gray-800" style="animation-delay: 0.2s;">
+                    <div class="value-icon">
+                        <span>🌙</span>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Contemplation</h3>
+                    <p class="text-text-secondary dark:text-gray-300">We create spaces for reflection in a world that never stops to breathe.</p>
+                </div>
+                
+                <div class="fade-in value-card dark:bg-gray-800" style="animation-delay: 0.3s;">
+                    <div class="value-icon">
+                        <span>✨</span>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Beauty in Sadness</h3>
+                    <p class="text-text-secondary dark:text-gray-300">We find the sacred in sorrow, the profound in the painful.</p>
+                </div>
+                
+                <div class="fade-in value-card dark:bg-gray-800" style="animation-delay: 0.4s;">
+                    <div class="value-icon">
+                        <span>🕊️</span>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Sacred Silence</h3>
+                    <p class="text-text-secondary dark:text-gray-300">Silence is not the absence of communication, but its purest form.</p>
+                </div>
+                
+                <div class="fade-in value-card dark:bg-gray-800" style="animation-delay: 0.5s;">
+                    <div class="value-icon">
+                        <span>🔗</span>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Human Connection</h3>
+                    <p class="text-text-secondary dark:text-gray-300">Through shared vulnerability, we discover we're never truly alone.</p>
+                </div>
+                
+                <div class="fade-in value-card dark:bg-gray-800" style="animation-delay: 0.6s;">
+                    <div class="value-icon">
+                        <span>∞</span>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Timeless Preservation</h3>
+                    <p class="text-text-secondary dark:text-gray-300">Emotions are fleeting, but their preservation can be eternal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-6 text-text-primary dark:text-white">
+                    Join Our Quiet Revolution
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Be part of a community that values depth over surface, emotion over perfection, silence over noise.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="gallery.html" class="bg-soft-pink hover:bg-pink-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Explore the Gallery
+                </a>
+                <a href="connect.html" class="border-2 border-soft-pink text-soft-pink hover:bg-soft-pink hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300">
+                    Connect With Us
+                </a>
+                </div>
+                
+                <div class="flex justify-center space-x-6 mt-8">
+                            <a href="notes.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors text-sm">
+                                Read Personal Stories →
+                            </a>
+                            <a href="zenmode.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors text-sm">
+                                Try Zen Mode →
+                            </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="font-playfair text-2xl font-bold text-soft-pink mb-4">Quit.pix</h3>
+                <p class="text-text-secondary dark:text-gray-300 max-w-2xl mx-auto">
+                    Every photograph is a silent poem, every moment a preserved emotion. 
+                    This is where feelings find their eternal home.
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="gallery.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                <a href="notes.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                <a href="zenmode.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                <a href="about.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                <a href="connect.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <p class="text-text-secondary dark:text-gray-400 text-sm">
+                    © 2025 Quit.pix • Made with silence and soul
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Stats counter animation
+        function animateCounter(element) {
+            const target = parseInt(element.dataset.target);
+            const increment = target / 100;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+        
+        // Observe stats counters
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target.querySelector('.stats-counter');
+                    if (counter && !counter.classList.contains('animated')) {
+                        counter.classList.add('animated');
+                        setTimeout(() => animateCounter(counter), 500);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.stats-counter').forEach(counter => {
+            statsObserver.observe(counter.parentElement);
+        });
+        
+        // Navigation function for interconnected pages
+        function navigateToPage(page) {
+            // In a real implementation, this would handle routing
+            // For now, we'll show which page would be navigated to
+            const pageMap = {
+                'home': 'Home - Landing page with featured content',
+                'gallery': 'Gallery - Curated emotional photography collections',
+                'notes': 'Notes - Personal emotional journal entries',
+                'zenmode': 'Zen Mode - Interactive meditation through imagery',
+                'about': 'About - Our philosophy and story (current page)',
+                'connect': 'Connect - Community engagement'
+            };
+            
+            console.log(`Navigating to: ${pageMap[page]}`);
+            // Could integrate with a router here for real navigation
+        }
+        
+        // Prevent context menu and text selection
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

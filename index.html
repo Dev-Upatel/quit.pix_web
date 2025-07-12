@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quit.pix - A Digital Museum of Emotion and Silence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-white': '#f9f9f9',
+                        'deep-black': '#121212',
+                        'soft-pink': '#f472b6',
+                        'text-primary': '#1a1a1a',
+                        'text-secondary': '#6b7280',
+                        'quote-bg': '#fef3c7'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%);
+        }
+        
+        .quote-style {
+            font-style: italic;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            position: relative;
+        }
+        
+        .quote-style::before {
+            content: '"';
+            font-size: 3rem;
+            color: rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 25px -5px rgba(244, 114, 182, 0.1), 0 10px 10px -5px rgba(244, 114, 182, 0.05);
+        }
+        
+        .heart-button {
+            transition: all 0.3s ease;
+        }
+        
+        .heart-button:hover {
+            transform: scale(1.1);
+            color: #f472b6;
+        }
+        
+        .heart-button.loved {
+            color: #f472b6;
+            animation: heartBeat 0.6s ease-in-out;
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.2); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.2); }
+            80% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="font-inter bg-soft-white dark:bg-deep-black text-text-primary dark:text-white transition-colors duration-300" oncontextmenu="return false;">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur bg-soft-white/80 dark:bg-deep-black/80 border-b border-gray-200/20 dark:border-gray-700/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="font-playfair text-2xl font-bold text-soft-pink">Quit.pix</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-text-primary dark:text-white hover:text-soft-pink transition-colors duration-200">Home</a>
+                        <a href="gallery.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                        <a href="notes.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                        <a href="zenmode.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                        <a href="about.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                        <a href="connect.html" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    
+                    <div class="relative">
+                        <input type="text" id="secretSearch" placeholder="search..." class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-soft-pink/50 w-32 transition-all duration-200">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center hero-gradient pt-16">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="fade-in">
+                <img src="assets/images/sunrise.jpg" 
+                     alt="Hero" 
+                     class="w-full max-w-2xl mx-auto rounded-3xl shadow-2xl mb-12 opacity-90">
+            </div>
+            
+            <div class="fade-in" style="animation-delay: 0.3s;">
+                <h1 class="font-playfair text-5xl md:text-7xl font-bold mb-6 text-text-primary dark:text-white">
+                    Quit.<span class="text-soft-pink">pix</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-text-secondary dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    A digital museum of emotion and silence — where every photo holds a feeling
+                </p>
+            </div>
+            
+            <div class="fade-in quote-style max-w-2xl mx-auto mb-12" style="animation-delay: 0.6s;">
+                <p class="text-lg font-playfair text-text-primary">
+                    In silence, we find the deepest truths. In images, we preserve what words cannot capture.
+                </p>
+            </div>
+            
+            <div class="fade-in" style="animation-delay: 0.9s;">
+                <a href="/gallery" class="inline-block bg-soft-pink hover:bg-pink-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Enter the Gallery
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curated Picks Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-4 text-text-primary dark:text-white">
+                    Curated Emotions
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300 max-w-2xl mx-auto">
+                    Handpicked moments that speak to the soul
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="fade-in card-hover bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="assets/images/rain.jpg" 
+                             alt="Rain" 
+                             class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4">
+                            <button class="heart-button text-2xl" onclick="toggleHeart(this)" data-count="47">
+                                ♡
+                            </button>
+                        </div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm">rain</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Rainy Solitude</h3>
+                        <p class="text-text-secondary dark:text-gray-300 mb-4">When the rain becomes your companion in silence</p>
+                        <div class="quote-style text-sm">
+                            "The rain whispered secrets only the lonely could understand."
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="fade-in card-hover bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-lg" style="animation-delay: 0.2s;">
+                    <div class="relative">
+                        <img src="keys/sunset-peace?prompt=A%20serene%20sunset%20over%20calm%20water%2C%20peaceful%20and%20contemplative%20mood%2C%20warm%20golden%20light%2C%20emotional%20landscape" 
+                             alt="Sunset" 
+                             class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4">
+                            <button class="heart-button text-2xl" onclick="toggleHeart(this)" data-count="83">
+                                ♡
+                            </button>
+                        </div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm">peace</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Golden Hour Peace</h3>
+                        <p class="text-text-secondary dark:text-gray-300 mb-4">Finding tranquility in the day's gentle ending</p>
+                        <div class="quote-style text-sm">
+                            "In the golden hour, time stands still and hearts find rest."
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="fade-in card-hover bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-lg" style="animation-delay: 0.4s;">
+                    <div class="relative">
+                        <img src="keys/misty-forest?prompt=A%20misty%20forest%20path%2C%20mysterious%20and%20contemplative%2C%20soft%20fog%2C%20emotional%20nature%20photography%2C%20solitude" 
+                             alt="Mist" 
+                             class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4">
+                            <button class="heart-button text-2xl" onclick="toggleHeart(this)" data-count="62">
+                                ♡
+                            </button>
+                        </div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm">mystery</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-text-primary dark:text-white">Misty Paths</h3>
+                        <p class="text-text-secondary dark:text-gray-300 mb-4">Where uncertainty becomes beautiful</p>
+                        <div class="quote-style text-sm">
+                            "Lost in the mist, but found in the moment."
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in">
+                <a href="/gallery" class="inline-block border-2 border-soft-pink text-soft-pink hover:bg-soft-pink hover:text-white px-8 py-3 rounded-2xl font-semibold transition-all duration-300">
+                    Explore All Emotions
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="font-playfair text-2xl font-bold text-soft-pink mb-4">Quit.pix</h3>
+                <p class="text-text-secondary dark:text-gray-300 max-w-2xl mx-auto">
+                    Every photograph is a silent poem, every moment a preserved emotion. 
+                    This is where feelings find their eternal home.
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="/gallery" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                <a href="/notes" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                <a href="/zenmode" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                <a href="/about" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                <a href="/connect" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <p class="text-text-secondary dark:text-gray-400 text-sm">
+                    © 2025 Quit.pix • Made with silence and soul
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Heart toggle functionality
+        function toggleHeart(button) {
+            const currentCount = parseInt(button.dataset.count);
+            const isLoved = button.classList.contains('loved');
+            
+            if (isLoved) {
+                button.textContent = '♡';
+                button.classList.remove('loved');
+                button.dataset.count = currentCount - 1;
+            } else {
+                button.textContent = '♥';
+                button.classList.add('loved');
+                button.dataset.count = currentCount + 1;
+            }
+        }
+        
+        // Secret search functionality
+        const secretSearch = document.getElementById('secretSearch');
+        secretSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = e.target.value.toLowerCase().trim();
+                if (query === 'legacy' || query === 'memories' || query === 'silence') {
+                    const password = prompt('Enter the key to unlock memories:');
+                    if (password === 'remember' || password === 'feelings' || password === 'truth') {
+                        window.location.href = '/legacy';
+                    } else {
+                        alert('The heart remembers what the mind forgets...');
+                    }
+                }
+                e.target.value = '';
+            }
+        });
+        
+        // Prevent right-click context menu
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+        
+        // Disable text selection and drag
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

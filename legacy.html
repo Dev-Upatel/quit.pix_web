@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy - Quit.pix Hidden Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-white': '#f9f9f9',
+                        'deep-black': '#121212',
+                        'soft-pink': '#f472b6',
+                        'text-primary': '#1a1a1a',
+                        'text-secondary': '#6b7280',
+                        'quote-bg': '#fef3c7',
+                        'sepia-light': '#f4f3ee',
+                        'sepia-dark': '#2c2a24'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f4f3ee 0%, #e8e6dd 100%);
+            color: #3c3a34;
+        }
+        
+        .dark body {
+            background: linear-gradient(135deg, #2c2a24 0%, #1a1816 100%);
+            color: #e0ddd4;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.2s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .vintage-card {
+            background: rgba(244, 243, 238, 0.8);
+            border: 2px solid rgba(156, 145, 125, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(156, 145, 125, 0.2);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark .vintage-card {
+            background: rgba(44, 42, 36, 0.8);
+            border-color: rgba(224, 221, 212, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .vintage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4af37, #cd853f, #daa520);
+            opacity: 0.6;
+        }
+        
+        .vintage-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(156, 145, 125, 0.3);
+            border-color: rgba(156, 145, 125, 0.5);
+        }
+        
+        .dark .vintage-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .polaroid {
+            background: #ffffff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .polaroid:nth-child(even) {
+            transform: rotate(2deg);
+        }
+        
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+        }
+        
+        .polaroid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .polaroid-caption {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .polaroid-date {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #718096;
+            text-align: center;
+        }
+        
+        .archive-entry {
+            background: rgba(244, 243, 238, 0.6);
+            border-left: 4px solid #d4af37;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .dark .archive-entry {
+            background: rgba(44, 42, 36, 0.6);
+            border-color: #cd853f;
+        }
+        
+        .typewriter {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.1em;
+            line-height: 1.8;
+        }
+        
+        .secret-message {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(205, 133, 63, 0.1) 100%);
+            border: 2px dashed rgba(212, 175, 55, 0.3);
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .secret-message::before {
+            content: '🔒';
+            position: absolute;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f4f3ee;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+        
+        .dark .secret-message::before {
+            background: #2c2a24;
+        }
+        
+        .memory-timeline {
+            position: relative;
+        }
+        
+        .memory-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #d4af37, #cd853f);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 2rem;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: #d4af37;
+            border-radius: 50%;
+            border: 4px solid #f4f3ee;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-marker {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-marker {
+            left: -10px;
+        }
+        
+        .dark .timeline-marker {
+            border-color: #2c2a24;
+        }
+        
+        .forgotten-quote {
+            font-style: italic;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(205, 133, 63, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+            margin: 2rem 0;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .forgotten-quote::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(212, 175, 55, 0.4);
+            position: absolute;
+            top: -0.5rem;
+            left: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .glitch {
+            position: relative;
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        .floating-memories {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-memory {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #d4af37;
+        }
+        
+        @keyframes float {
+            0% { 
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.1; }
+            90% { opacity: 0.1; }
+            100% { 
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            perspective: 1000px;
+        }
+        
+        .vintage-filter {
+            filter: sepia(20%) contrast(1.1) brightness(0.95) saturate(1.2);
+        }
+    </style>
+</head>
+<body class="font-inter transition-colors duration-300" oncontextmenu="return false;">
+
+    <!-- Floating Memories Background -->
+    <div class="floating-memories">
+        <div class="floating-memory" style="left: 10%; animation-delay: 0s;">remember when...</div>
+        <div class="floating-memory" style="left: 30%; animation-delay: 5s;">fragments of yesterday</div>
+        <div class="floating-memory" style="left: 50%; animation-delay: 10s;">lost in time</div>
+        <div class="floating-memory" style="left: 70%; animation-delay: 15s;">echoes of silence</div>
+        <div class="floating-memory" style="left: 90%; animation-delay: 20s;">forgotten dreams</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur bg-sepia-light/80 dark:bg-sepia-dark/80 border-b border-yellow-600/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.location.href='/'" class="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900 hover:bg-yellow-200 dark:hover:bg-yellow-800 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <a href="/" class="font-playfair text-2xl font-bold text-yellow-700 dark:text-yellow-400">Quit.pix</a>
+                    <span class="text-xs bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full">LEGACY</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900 hover:bg-yellow-200 dark:hover:bg-yellow-800 transition-colors duration-200">
+                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    
+                    <div class="text-xs text-yellow-700 dark:text-yellow-400">
+                        You found the secret...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center pt-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <div class="glitch mb-8">
+                    <h1 class="font-playfair text-6xl md:text-7xl font-bold mb-6 text-yellow-800 dark:text-yellow-300">
+                        The <span class="text-yellow-600 dark:text-yellow-400">Legacy</span> Archive
+                    </h1>
+                </div>
+                <p class="text-xl md:text-2xl text-yellow-700 dark:text-yellow-300 mb-8 max-w-3xl mx-auto leading-relaxed typewriter">
+                    Welcome to the hidden chambers of memory, where the earliest fragments of emotion found their home. These are the forgotten photographs, the lost notes, the archived feelings that started it all.
+                </p>
+            </div>
+            
+            <div class="fade-in secret-message max-w-2xl mx-auto mb-12" style="animation-delay: 0.3s;">
+                <p class="text-lg font-playfair text-yellow-800 dark:text-yellow-200">
+                    Only those who understand the weight of silence, the beauty of remembering, and the truth in feelings can access these sacred memories. You have proven yourself worthy.
+                </p>
+            </div>
+            
+            <div class="fade-in" style="animation-delay: 0.6s;">
+                <p class="text-sm text-yellow-600 dark:text-yellow-400 mb-8">
+                    Archive accessed: <span class="typewriter font-mono">2025.01.12.21:23:47</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Original Manifesto -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="fade-in vintage-card p-8 rounded-2xl">
+                <h2 class="font-playfair text-3xl font-bold mb-6 text-yellow-800 dark:text-yellow-300 text-center">
+                    The Original Manifesto
+                    <span class="block text-sm font-normal text-yellow-600 dark:text-yellow-400 mt-2">Found in a notebook, dated 2019</span>
+                </h2>
+                
+                <div class="archive-entry">
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed mb-4">
+                        "I will create a place where silence speaks louder than words. Where a single photograph can hold more truth than a thousand explanations. Where people who feel too much can finally feel understood.
+                    </p>
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed mb-4">
+                        This is not about perfect images or polished writing. This is about the messy, beautiful, overwhelming experience of being human. This is about quitting the noise and embracing the quiet truth of our inner worlds.
+                    </p>
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed italic">
+                        - From the first draft, written on a rainy Tuesday"
+                    </p>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <img src="keys/original-notebook?prompt=An%20old%20notebook%20with%20handwritten%20text%2C%20vintage%20aesthetic%2C%20sepia%20tones%2C%20coffee%20stains%2C%20emotional%20writing" 
+                         alt="Original Notebook" 
+                         class="w-full max-w-md mx-auto rounded-lg vintage-filter">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Timeline -->
+    <section class="py-20 px-4 bg-gradient-to-b from-transparent to-yellow-50/30 dark:to-yellow-900/10">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-playfair text-4xl font-bold mb-4 text-yellow-800 dark:text-yellow-300">
+                    Timeline of Forgotten Moments
+                </h2>
+                <p class="text-xl text-yellow-700 dark:text-yellow-400">
+                    The evolution of silence into art
+                </p>
+            </div>
+            
+            <div class="memory-timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.1s;">
+                    <div class="timeline-marker"></div>
+                    <div class="vintage-card p-6 rounded-xl">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-yellow-800 dark:text-yellow-300">
+                            The First Photograph
+                        </h3>
+                        <p class="text-sm text-yellow-600 dark:text-yellow-400 mb-3">March 2019</p>
+                        <p class="text-yellow-700 dark:text-yellow-300 leading-relaxed">
+                            A blurry image of rain on a window. I almost deleted it, but something made me stop. The imperfection held more truth than any perfect shot I'd ever taken.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.3s;">
+                    <div class="timeline-marker"></div>
+                    <div class="vintage-card p-6 rounded-xl">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-yellow-800 dark:text-yellow-300">
+                            The Lost Collection
+                        </h3>
+                        <p class="text-sm text-yellow-600 dark:text-yellow-400 mb-3">August 2019</p>
+                        <p class="text-yellow-700 dark:text-yellow-300 leading-relaxed">
+                            127 photos stored in a folder labeled "feelings." I showed them to no one, but they became the foundation of everything that followed.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.5s;">
+                    <div class="timeline-marker"></div>
+                    <div class="vintage-card p-6 rounded-xl">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-yellow-800 dark:text-yellow-300">
+                            The First Note
+                        </h3>
+                        <p class="text-sm text-yellow-600 dark:text-yellow-400 mb-3">November 2019</p>
+                        <p class="text-yellow-700 dark:text-yellow-300 leading-relaxed">
+                            "Today I realized that my camera sees things my eyes miss." Written on the back of a receipt, this became the first entry in what would become the Notes section.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 4 -->
+                <div class="timeline-item fade-in" style="animation-delay: 0.7s;">
+                    <div class="timeline-marker"></div>
+                    <div class="vintage-card p-6 rounded-xl">
+                        <h3 class="font-playfair text-xl font-semibold mb-2 text-yellow-800 dark:text-yellow-300">
+                            The Name Revealed
+                        </h3>
+                        <p class="text-sm text-yellow-600 dark:text-yellow-400 mb-3">February 2020</p>
+                        <p class="text-yellow-700 dark:text-yellow-300 leading-relaxed">
+                            At 3 AM, the name came to me: Quit.pix. Quit explaining, quit justifying, quit trying to make feelings fit into neat categories. Just preserve them in pixels.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Archived Polaroids -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-playfair text-4xl font-bold mb-4 text-yellow-800 dark:text-yellow-300">
+                    Archived Polaroids
+                </h2>
+                <p class="text-xl text-yellow-700 dark:text-yellow-400">
+                    The original collection, discovered in a shoebox
+                </p>
+            </div>
+            
+            <div class="archive-grid">
+                <!-- Polaroid 1 -->
+                <div class="fade-in polaroid" style="animation-delay: 0.1s;">
+                    <img src="keys/vintage-rain-window?prompt=Vintage%20polaroid%20style%20photo%20of%20rain%20on%20window%2C%20blurry%2C%20emotional%2C%20sepia%20tones%2C%20aged%20photograph" 
+                         alt="Rain Window" class="vintage-filter">
+                    <div class="polaroid-caption">First attempt at capturing sadness</div>
+                    <div class="polaroid-date">March 15, 2019</div>
+                </div>
+                
+                <!-- Polaroid 2 -->
+                <div class="fade-in polaroid" style="animation-delay: 0.2s;">
+                    <img src="keys/vintage-empty-coffee?prompt=Vintage%20polaroid%20of%20an%20empty%20coffee%20cup%20on%20wooden%20table%2C%20melancholic%2C%20sepia%20aesthetic%2C%20aged" 
+                         alt="Empty Coffee" class="vintage-filter">
+                    <div class="polaroid-caption">The loneliness of morning</div>
+                    <div class="polaroid-date">April 2, 2019</div>
+                </div>
+                
+                <!-- Polaroid 3 -->
+                <div class="fade-in polaroid" style="animation-delay: 0.3s;">
+                    <img src="keys/vintage-shadow-self?prompt=Vintage%20polaroid%20of%20a%20shadow%20self-portrait%20on%20wall%2C%20artistic%2C%20emotional%2C%20sepia%20tones%2C%20contemplative" 
+                         alt="Shadow Self" class="vintage-filter">
+                    <div class="polaroid-caption">Who am I in the shadows?</div>
+                    <div class="polaroid-date">May 18, 2019</div>
+                </div>
+                
+                <!-- Polaroid 4 -->
+                <div class="fade-in polaroid" style="animation-delay: 0.4s;">
+                    <img src="keys/vintage-old-book?prompt=Vintage%20polaroid%20of%20an%20old%20open%20book%20with%20dried%20flowers%2C%20nostalgic%2C%20aged%20photograph%2C%20sepia" 
+                         alt="Old Book" class="vintage-filter">
+                    <div class="polaroid-caption">Stories within stories</div>
+                    <div class="polaroid-date">June 7, 2019</div>
+                </div>
+                
+                <!-- Polaroid 5 -->
+                <div class="fade-in polaroid" style="animation-delay: 0.5s;">
+                    <img src="keys/vintage-train-station?prompt=Vintage%20polaroid%20of%20empty%20train%20station%20bench%2C%20melancholic%20atmosphere%2C%20sepia%20tones%2C%20emotional" 
+                         alt="Train Station" class="vintage-filter">
+                    <div class="polaroid-caption">Waiting for what never comes</div>
+                    <div class="polaroid-date">July 14, 2019</div>
+                </div>
+                
+                <!-- Polaroid 6 -->
+                <div class="fade-in polaroid" style="animation-delay: 0.6s;">
+                    <img src="keys/vintage-mirror-crack?prompt=Vintage%20polaroid%20of%20cracked%20mirror%20reflection%2C%20broken%20self-image%2C%20emotional%2C%20aged%20photograph" 
+                         alt="Cracked Mirror" class="vintage-filter">
+                    <div class="polaroid-caption">Beauty in the broken</div>
+                    <div class="polaroid-date">August 23, 2019</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lost Writings -->
+    <section class="py-20 px-4 bg-gradient-to-b from-yellow-50/20 to-transparent dark:from-yellow-900/5 dark:to-transparent">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-playfair text-4xl font-bold mb-4 text-yellow-800 dark:text-yellow-300">
+                    Lost Writings
+                </h2>
+                <p class="text-xl text-yellow-700 dark:text-yellow-400">
+                    Words found in margins, napkins, and forgotten notebooks
+                </p>
+            </div>
+            
+            <!-- Writing 1 -->
+            <div class="fade-in forgotten-quote" style="animation-delay: 0.1s;">
+                <p class="font-playfair text-lg text-yellow-800 dark:text-yellow-200 mb-4">
+                    I collect moments like others collect stamps. Each one carefully preserved, catalogued not by date or location, but by the weight of the feeling it carries.
+                </p>
+                <p class="text-sm text-yellow-600 dark:text-yellow-400 text-right">
+                    - Found written in a library book margin, 2019
+                </p>
+            </div>
+            
+            <!-- Writing 2 -->
+            <div class="fade-in forgotten-quote" style="animation-delay: 0.3s;">
+                <p class="font-playfair text-lg text-yellow-800 dark:text-yellow-200 mb-4">
+                    Photography is just another word for time travel. Every click of the shutter is a small act of defiance against forgetting.
+                </p>
+                <p class="text-sm text-yellow-600 dark:text-yellow-400 text-right">
+                    - Scribbled on a coffee shop napkin, 2020
+                </p>
+            </div>
+            
+            <!-- Writing 3 -->
+            <div class="fade-in forgotten-quote" style="animation-delay: 0.5s;">
+                <p class="font-playfair text-lg text-yellow-800 dark:text-yellow-200 mb-4">
+                    There's a difference between being alone and being lonely. One is a choice, the other is a circumstance. Both can be beautiful if you know how to listen to what they're teaching you.
+                </p>
+                <p class="text-sm text-yellow-600 dark:text-yellow-400 text-right">
+                    - From a journal entry never published, 2020
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Secret Origin -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="fade-in vintage-card p-8 rounded-2xl">
+                <h2 class="font-playfair text-3xl font-bold mb-6 text-yellow-800 dark:text-yellow-300 text-center">
+                    The Secret Origin
+                </h2>
+                
+                <div class="archive-entry">
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed mb-4">
+                        Quit.pix was born on a Tuesday when I couldn't stop crying and didn't know why. I grabbed my camera not to document the sadness, but to understand it. To hold it. To prove it existed.
+                    </p>
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed mb-4">
+                        The first photo was terrible by every technical standard. Blurry, overexposed, poorly composed. But it captured something I'd never seen in a photograph before: the exact texture of how heartbreak feels at 3 AM.
+                    </p>
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed mb-4">
+                        I kept that photo on my phone for months before I understood what I'd discovered. I hadn't taken a picture - I'd translated an emotion into pixels. I'd found a new language.
+                    </p>
+                    <p class="typewriter text-yellow-700 dark:text-yellow-300 leading-relaxed italic">
+                        That terrible, beautiful photograph became the seed of everything you see today. Sometimes the most important discoveries happen when we stop trying to be perfect and start trying to be true.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Guardian's Note -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in secret-message">
+                <h3 class="font-playfair text-2xl font-bold mb-4 text-yellow-800 dark:text-yellow-300">
+                    A Note from the Guardian of Memories
+                </h3>
+                <p class="text-yellow-700 dark:text-yellow-300 leading-relaxed mb-6">
+                    You have found your way to the heart of Quit.pix. These archived memories are not just the history of a website - they are the preserved emotions of everyone who has ever felt too much, loved too deeply, or found beauty in the broken places.
+                </p>
+                <p class="text-yellow-700 dark:text-yellow-300 leading-relaxed mb-6">
+                    Take these memories with you. Let them remind you that your feelings are not too much, your sensitivity is not a weakness, and your emotional truth deserves to be preserved in all its messy, magnificent glory.
+                </p>
+                <p class="text-sm text-yellow-600 dark:text-yellow-400 italic">
+                    Remember: The heart that feels deeply is the heart that lives fully.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-100/50 dark:bg-yellow-900/20 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="font-playfair text-2xl font-bold text-yellow-700 dark:text-yellow-400 mb-4">Quit.pix Legacy Archive</h3>
+                <p class="text-yellow-600 dark:text-yellow-400 max-w-2xl mx-auto">
+                    Where the deepest memories sleep, waiting to be remembered by those brave enough to seek them.
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="/" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 transition-colors duration-200">Return to Present</a>
+                <a href="/gallery" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 transition-colors duration-200">Gallery</a>
+                <a href="/notes" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 transition-colors duration-200">Notes</a>
+                <a href="/about" class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 transition-colors duration-200">About</a>
+            </div>
+            
+            <div class="border-t border-yellow-600/20 pt-8">
+                <p class="text-yellow-500 dark:text-yellow-500 text-sm typewriter">
+                    Archive Status: [ACCESSED] • Session: AUTHENTICATED • Level: DEEP_MEMORY
+                </p>
+                <p class="text-yellow-500 dark:text-yellow-500 text-xs mt-2">
+                    "Some things are too precious to forget, too sacred to display openly"
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Add random floating memories
+        function createFloatingMemory() {
+            const memories = [
+                "lost in translation...",
+                "the weight of silence",
+                "moments between heartbeats",
+                "when words weren't enough",
+                "archived feelings",
+                "preserved in amber",
+                "echoes of yesterday",
+                "fragments of truth",
+                "the color of remembering",
+                "whispers in the dark"
+            ];
+            
+            const memory = document.createElement('div');
+            memory.className = 'floating-memory';
+            memory.textContent = memories[Math.floor(Math.random() * memories.length)];
+            memory.style.left = Math.random() * 100 + '%';
+            memory.style.animationDelay = '0s';
+            memory.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            
+            document.querySelector('.floating-memories').appendChild(memory);
+            
+            // Remove after animation
+            setTimeout(() => {
+                if (memory.parentNode) {
+                    memory.parentNode.removeChild(memory);
+                }
+            }, 25000);
+        }
+        
+        // Create floating memories every 5 seconds
+        setInterval(createFloatingMemory, 5000);
+        
+        // Polaroid interactions
+        document.querySelectorAll('.polaroid').forEach(polaroid => {
+            polaroid.addEventListener('click', () => {
+                // Add a subtle shake animation
+                polaroid.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    polaroid.style.animation = '';
+                }, 500);
+            });
+        });
+        
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: rotate(-2deg); }
+                25% { transform: rotate(2deg) scale(1.02); }
+                75% { transform: rotate(-1deg) scale(1.01); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Secret functionality - access deeper archives
+        let clickCount = 0;
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('glitch')) {
+                clickCount++;
+                if (clickCount === 7) {
+                    alert('You have unlocked the deepest layer of the archive. Some memories are too precious even for the Legacy section...');
+                    clickCount = 0;
+                }
+            }
+        });
+        
+        // Prevent context menu and text selection
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // Console message for those who look
+        console.log(`
+        ███████████████████████████████████████
+        ██                                   ██
+        ██   You found the developer tools   ██
+        ██   The deepest memories require    ██
+        ██   the deepest understanding       ██
+        ██                                   ██
+        ███████████████████████████████████████
+        
+        "Some secrets reveal themselves only to those who seek with genuine curiosity."
+        
+        Try: secretFunction();
+        `);
+        
+        // Secret function for developers
+        window.secretFunction = function() {
+            console.log('🔓 DEEPEST ARCHIVE UNLOCKED');
+            console.log('The true legacy of Quit.pix lives not in code or images,');
+            console.log('but in the courage of everyone who chose to feel deeply');
+            console.log('in a world that often asks us to feel nothing at all.');
+            console.log('');
+            console.log('You are part of this legacy now.');
+        };
+    </script>
+</body>
+</html>

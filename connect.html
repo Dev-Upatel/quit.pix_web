@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Quit.pix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-white': '#f9f9f9',
+                        'deep-black': '#121212',
+                        'soft-pink': '#f472b6',
+                        'text-primary': '#1a1a1a',
+                        'text-secondary': '#6b7280',
+                        'quote-bg': '#fef3c7'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .quote-meditation {
+            font-style: italic;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .quote-meditation::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: -0.5rem;
+            left: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .connect-card {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.05) 0%, rgba(244, 114, 182, 0.02) 100%);
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .connect-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #d946ef);
+        }
+        
+        .connect-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.2);
+            border-color: rgba(244, 114, 182, 0.3);
+        }
+        
+        .form-input {
+            background: rgba(244, 114, 182, 0.05);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #f472b6;
+            box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.1);
+            background: rgba(244, 114, 182, 0.08);
+        }
+        
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.4);
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1), rgba(244, 114, 182, 0.05));
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            transition: all 0.3s ease;
+            color: #f472b6;
+            text-decoration: none;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.3);
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            color: white;
+        }
+        
+        .community-stat {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            dark:background: #1f2937;
+            border-radius: 1rem;
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .community-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(244, 114, 182, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f472b6;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+        
+        .newsletter-form {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%);
+            border: 2px solid rgba(244, 114, 182, 0.2);
+            position: relative;
+        }
+        
+        .newsletter-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #d946ef, #c026d3);
+        }
+        
+        .testimonial-card {
+            background: white;
+            dark:background: #1f2937;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            font-size: 3rem;
+            color: rgba(244, 114, 182, 0.3);
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        .ways-to-connect {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: rgba(244, 114, 182, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            display: none;
+            margin-top: 1rem;
+        }
+        
+        .email-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .email-type {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(244, 114, 182, 0.05);
+            border: 1px solid rgba(244, 114, 182, 0.1);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .email-type:hover {
+            background: rgba(244, 114, 182, 0.1);
+            border-color: rgba(244, 114, 182, 0.3);
+        }
+        
+        .email-type input[type="radio"] {
+            margin-right: 0.75rem;
+            accent-color: #f472b6;
+        }
+    </style>
+</head>
+<body class="font-inter bg-soft-white dark:bg-deep-black text-text-primary dark:text-white transition-colors duration-300" oncontextmenu="return false;">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur bg-soft-white/80 dark:bg-deep-black/80 border-b border-gray-200/20 dark:border-gray-700/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <button onclick="history.back()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <a href="/" class="font-playfair text-2xl font-bold text-soft-pink">Quit.pix</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" onclick="navigateToPage('home')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Home</a>
+                        <a href="#gallery" onclick="navigateToPage('gallery')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                        <a href="#notes" onclick="navigateToPage('notes')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                        <a href="#zenmode" onclick="navigateToPage('zenmode')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                        <a href="#about" onclick="navigateToPage('about')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                        <a href="#connect" onclick="navigateToPage('connect')" class="text-text-primary dark:text-white hover:text-soft-pink transition-colors duration-200">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h1 class="font-playfair text-5xl md:text-6xl font-bold mb-6 text-text-primary dark:text-white">
+                    Let's <span class="text-soft-pink">Connect</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-text-secondary dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Join our community of souls who believe that vulnerability is strength, and silence speaks volumes
+                </p>
+            </div>
+            
+            <div class="fade-in quote-meditation max-w-2xl mx-auto" style="animation-delay: 0.3s;">
+                <p class="text-lg font-playfair text-text-primary">
+                    In a world that never stops talking, we create spaces for listening. Your story matters, your emotions have value, and you are never alone in feeling deeply.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ways to Connect -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Ways to Connect
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    Choose how you'd like to be part of our quiet revolution
+                </p>
+            </div>
+            
+            <div class="ways-to-connect">
+                <!-- Share Your Story -->
+                <div class="fade-in connect-card p-8 rounded-2xl relative" style="animation-delay: 0.1s;">
+                    <div class="floating-hearts">💭</div>
+                    <div class="w-16 h-16 mx-auto mb-6 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-4 text-text-primary dark:text-white text-center">
+                        Share Your Story
+                    </h3>
+                    <p class="text-text-secondary dark:text-gray-300 text-center leading-relaxed mb-6">
+                        Submit your own emotional photographs and written reflections to be featured in our gallery. Every authentic moment deserves to be witnessed.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openSubmissionForm()" class="bg-soft-pink hover:bg-pink-500 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:transform hover:scale-105">
+                            Submit Your Work
+                        </button>
+                        <p class="text-xs text-text-secondary dark:text-gray-400 mt-2">
+                            First, explore our <a href="#gallery" onclick="navigateToPage('gallery')" class="text-soft-pink hover:underline">Gallery</a> for inspiration
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Join Community -->
+                <div class="fade-in connect-card p-8 rounded-2xl relative" style="animation-delay: 0.2s;">
+                    <div class="floating-hearts">🤝</div>
+                    <div class="w-16 h-16 mx-auto mb-6 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-4 text-text-primary dark:text-white text-center">
+                        Join Our Community
+                    </h3>
+                    <p class="text-text-secondary dark:text-gray-300 text-center leading-relaxed mb-6">
+                        Connect with like-minded souls who understand that feeling deeply is a superpower. Share experiences, find support, and grow together.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openCommunityForm()" class="bg-soft-pink hover:bg-pink-500 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:transform hover:scale-105">
+                            Join the Circle
+                        </button>
+                        <p class="text-xs text-text-secondary dark:text-gray-400 mt-2">
+                            Read our story in <a href="#about" onclick="navigateToPage('about')" class="text-soft-pink hover:underline">About</a> first
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Collaborate -->
+                <div class="fade-in connect-card p-8 rounded-2xl relative" style="animation-delay: 0.3s;">
+                    <div class="floating-hearts">✨</div>
+                    <div class="w-16 h-16 mx-auto mb-6 bg-soft-pink/20 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-soft-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-playfair text-xl font-semibold mb-4 text-text-primary dark:text-white text-center">
+                        Collaborate
+                    </h3>
+                    <p class="text-text-secondary dark:text-gray-300 text-center leading-relaxed mb-6">
+                        Partner with us on projects, workshops, or events that spread emotional awareness and creative healing in your community.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="openCollaborationForm()" class="bg-soft-pink hover:bg-pink-500 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:transform hover:scale-105">
+                            Start Collaborating
+                        </button>
+                        <p class="text-xs text-text-secondary dark:text-gray-400 mt-2">
+                            Experience <a href="#zenmode" onclick="navigateToPage('zenmode')" class="text-soft-pink hover:underline">Zen Mode</a> to understand our vision
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Reach Out
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    Sometimes a simple message is all it takes to start a meaningful connection
+                </p>
+            </div>
+            
+            <div class="fade-in" style="animation-delay: 0.2s;">
+                <form id="contactForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-text-primary dark:text-white mb-2">
+                                Your Name
+                            </label>
+                            <input type="text" id="name" name="name" required 
+                                   class="form-input text-text-primary dark:text-white dark:bg-gray-800" 
+                                   placeholder="What should we call you?">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-text-primary dark:text-white mb-2">
+                                Email Address
+                            </label>
+                            <input type="email" id="email" name="email" required 
+                                   class="form-input text-text-primary dark:text-white dark:bg-gray-800" 
+                                   placeholder="your@email.com">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary dark:text-white mb-3">
+                            What's on your heart?
+                        </label>
+                        <div class="email-types">
+                            <label class="email-type">
+                                <input type="radio" name="messageType" value="share_story" required>
+                                <span class="text-sm text-text-primary dark:text-white">I want to share my story</span>
+                            </label>
+                            <label class="email-type">
+                                <input type="radio" name="messageType" value="join_community" required>
+                                <span class="text-sm text-text-primary dark:text-white">I want to join the community</span>
+                            </label>
+                            <label class="email-type">
+                                <input type="radio" name="messageType" value="collaborate" required>
+                                <span class="text-sm text-text-primary dark:text-white">I'm interested in collaborating</span>
+                            </label>
+                            <label class="email-type">
+                                <input type="radio" name="messageType" value="general" required>
+                                <span class="text-sm text-text-primary dark:text-white">Just saying hello</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-text-primary dark:text-white mb-2">
+                            Your Message
+                        </label>
+                        <textarea id="message" name="message" rows="6" required 
+                                  class="form-input text-text-primary dark:text-white dark:bg-gray-800 resize-none" 
+                                  placeholder="Share what's in your heart. Every word matters, every emotion is valid."></textarea>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="submit-btn">
+                            Send with Love 💌
+                        </button>
+                    </div>
+                    
+                    <div id="successMessage" class="success-message">
+                        Thank you for reaching out! Your message has been received with love and we'll respond with the same energy you've shared. 🤍
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Stats -->
+    <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Our Growing Community
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    Beautiful souls connecting through authentic expression
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="fade-in community-stat dark:bg-gray-800" style="animation-delay: 0.1s;">
+                    <div class="stat-number" data-target="2847">0</div>
+                    <p class="text-text-secondary dark:text-gray-300">Community Members</p>
+                </div>
+                
+                <div class="fade-in community-stat dark:bg-gray-800" style="animation-delay: 0.2s;">
+                    <div class="stat-number" data-target="1256">0</div>
+                    <p class="text-text-secondary dark:text-gray-300">Stories Shared</p>
+                </div>
+                
+                <div class="fade-in community-stat dark:bg-gray-800" style="animation-delay: 0.3s;">
+                    <div class="stat-number" data-target="89">0</div>
+                    <p class="text-text-secondary dark:text-gray-300">Countries Reached</p>
+                </div>
+                
+                <div class="fade-in community-stat dark:bg-gray-800" style="animation-delay: 0.4s;">
+                    <div class="stat-number" data-target="156">0</div>
+                    <p class="text-text-secondary dark:text-gray-300">Healing Connections</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media -->
+    <section class="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-6 text-text-primary dark:text-white">
+                    Find Us Everywhere
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300 mb-12">
+                    Follow our journey across platforms where authentic connection happens
+                </p>
+                
+                <div class="flex justify-center space-x-6 mb-12">
+                    <a href="#" class="social-link" title="Instagram">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.8 13.6 3.8 12.156c0-1.445.398-2.739 1.326-3.636.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.897 1.326 2.191 1.326 3.636 0 1.444-.398 2.739-1.326 3.635-.875.807-2.026 1.297-3.323 1.297z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="#" class="social-link" title="Twitter">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="#" class="social-link" title="TikTok">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="#" class="social-link" title="Pinterest">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.221.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.748-1.378 0 0-.599 2.282-.744 2.840-.282 1.084-1.064 2.456-1.549 3.235C9.584 23.815 10.77 24.001 12.017 24.001c6.624 0 11.99-5.367 11.99-11.987C24.007 5.369 18.641.001 12.017.001z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="#" class="social-link" title="YouTube">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="fade-in newsletter-form p-8 rounded-3xl">
+                <div class="text-center mb-8">
+                    <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                        Subscribe to Our Heart
+                    </h2>
+                    <p class="text-xl text-text-secondary dark:text-gray-300">
+                        Receive monthly letters filled with new photographs, personal reflections, and gentle reminders that your feelings matter
+                    </p>
+                </div>
+                
+                <form id="newsletterForm" class="max-w-md mx-auto">
+                    <div class="flex gap-4">
+                        <input type="email" id="newsletterEmail" required 
+                               class="form-input flex-1 text-text-primary dark:text-white dark:bg-gray-800" 
+                               placeholder="your@email.com">
+                        <button type="submit" class="submit-btn whitespace-nowrap">
+                            Join Us 💌
+                        </button>
+                    </div>
+                    <p class="text-sm text-text-secondary dark:text-gray-400 text-center mt-4">
+                        We respect your privacy. Unsubscribe anytime. No spam, just soul.
+                    </p>
+                    
+                    <div id="newsletterSuccess" class="success-message">
+                        Welcome to our community! Check your email for a gentle hello from us. 🤍
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="font-playfair text-3xl font-bold mb-4 text-text-primary dark:text-white">
+                    Community Voices
+                </h2>
+                <p class="text-xl text-text-secondary dark:text-gray-300">
+                    What our community says about finding connection through Quit.pix
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="fade-in testimonial-card dark:bg-gray-800" style="animation-delay: 0.1s;">
+                    <div class="pt-8 pb-4">
+                        <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-6">
+                            This space saved me when words couldn't. Finding others who understand that sadness can be beautiful changed everything for me.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="avatar">S</div>
+                            <div class="ml-3">
+                                <p class="font-semibold text-text-primary dark:text-white">Sarah</p>
+                                <p class="text-sm text-text-secondary dark:text-gray-400">Community member since 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in testimonial-card dark:bg-gray-800" style="animation-delay: 0.2s;">
+                    <div class="pt-8 pb-4">
+                        <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-6">
+                            I've never felt so seen and understood. The vulnerability here is raw and real, and it's exactly what my soul needed.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="avatar">M</div>
+                            <div class="ml-3">
+                                <p class="font-semibold text-text-primary dark:text-white">Marcus</p>
+                                <p class="text-sm text-text-secondary dark:text-gray-400">Photographer & storyteller</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in testimonial-card dark:bg-gray-800" style="animation-delay: 0.3s;">
+                    <div class="pt-8 pb-4">
+                        <p class="text-text-secondary dark:text-gray-300 leading-relaxed mb-6">
+                            Quit.pix taught me that my emotions aren't too much — they're just human. This community celebrates feeling deeply.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="avatar">L</div>
+                            <div class="ml-3">
+                                <p class="font-semibold text-text-primary dark:text-white">Luna</p>
+                                <p class="text-sm text-text-secondary dark:text-gray-400">Artist & mental health advocate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8">
+                <h3 class="font-playfair text-2xl font-bold text-soft-pink mb-4">Quit.pix</h3>
+                <p class="text-text-secondary dark:text-gray-300 max-w-2xl mx-auto">
+                    Every photograph is a silent poem, every moment a preserved emotion. 
+                    This is where feelings find their eternal home.
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="#gallery" onclick="navigateToPage('gallery')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Gallery</a>
+                <a href="#notes" onclick="navigateToPage('notes')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Notes</a>
+                <a href="#zenmode" onclick="navigateToPage('zenmode')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Zen Mode</a>
+                <a href="#about" onclick="navigateToPage('about')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">About</a>
+                <a href="#connect" onclick="navigateToPage('connect')" class="text-text-secondary dark:text-gray-300 hover:text-soft-pink transition-colors duration-200">Connect</a>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
+                <p class="text-text-secondary dark:text-gray-400 text-sm">
+                    © 2025 Quit.pix • Made with silence and soul
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Stats counter animation
+        function animateCounter(element) {
+            const target = parseInt(element.dataset.target);
+            const increment = target / 100;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+        
+        // Observe stats counters
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target.querySelector('.stat-number');
+                    if (counter && !counter.classList.contains('animated')) {
+                        counter.classList.add('animated');
+                        setTimeout(() => animateCounter(counter), 500);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.community-stat').forEach(stat => {
+            statsObserver.observe(stat);
+        });
+        
+        // Form submissions
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        });
+        
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            document.getElementById('newsletterSuccess').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('newsletterSuccess').style.display = 'none';
+            }, 5000);
+        });
+        
+        // Navigation function for interconnected pages
+        function navigateToPage(page) {
+            // In a real implementation, this would handle routing
+            // For now, we'll show which page would be navigated to
+            const pageMap = {
+                'home': 'Home - Landing page with featured content',
+                'gallery': 'Gallery - Curated emotional photography collections',
+                'notes': 'Notes - Personal emotional journal entries',
+                'zenmode': 'Zen Mode - Interactive meditation through imagery',
+                'about': 'About - Our philosophy and story',
+                'connect': 'Connect - Community engagement (current page)'
+            };
+            
+            console.log(`Navigating to: ${pageMap[page]}`);
+            // Could integrate with a router here for real navigation
+        }
+        
+        // Modal functions for different connection types
+        function openSubmissionForm() {
+            alert('Submission form would open here - where users can upload their own emotional photographs and stories to be featured in the gallery. Users can also explore our Gallery first to understand our aesthetic.');
+        }
+        
+        function openCommunityForm() {
+            alert('Community registration would open here - connecting users with others who share similar emotional experiences and creative interests. We recommend reading our About page to understand our philosophy first.');
+        }
+        
+        function openCollaborationForm() {
+            alert('Collaboration form would open here - for partnerships, workshops, events, and community projects focused on emotional wellness through photography. Try our Zen Mode to experience our vision.');
+        }
+        
+        // Prevent context menu and text selection (except for form inputs)
+        document.addEventListener('contextmenu', (e) => {
+            if (!e.target.matches('input, textarea')) {
+                e.preventDefault();
+            }
+        });
+        
+        document.addEventListener('selectstart', (e) => {
+            if (!e.target.matches('input, textarea')) {
+                e.preventDefault();
+            }
+        });
+        
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
